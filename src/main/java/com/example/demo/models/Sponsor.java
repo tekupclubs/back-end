@@ -14,11 +14,9 @@ import lombok.Data;
 @Entity
 @Data
 public class Sponsor {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id ;
-	
 	private String Libelle ;
 	private Float budget;
 	@ManyToMany(mappedBy = "sponsors")

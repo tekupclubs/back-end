@@ -16,8 +16,7 @@ import lombok.Data;
 public class Fournisseur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id ;
-	
+	private Integer id;
 	private String Libelle ;
 	private Float budget;
 	@ManyToMany(mappedBy = "fournisseur")

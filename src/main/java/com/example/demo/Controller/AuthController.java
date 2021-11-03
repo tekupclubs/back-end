@@ -84,15 +84,15 @@ public class AuthController {
 	    String[] roleArr = signupRequest.getRoles();
 	    
 	    if(roleArr == null) {
-	      roles.add(roleRepository.findByRoleName(Roles.ROLE_MEMBRE).get());
+	      roles.add(roleRepository.findByRoleName(Roles.ROLE_MODERATEUR).get());
 	    }
 	    for(String role: roleArr) {
 	      switch(role) {
-	        case "admin":
+	        case "Admin":
 	          roles.add(roleRepository.findByRoleName(Roles.ROLE_ADMIN).get());
 	          break;
-	        case "membre":
-	          roles.add(roleRepository.findByRoleName(Roles.ROLE_MEMBRE).get());
+	        case "MODERATEUR":
+	          roles.add(roleRepository.findByRoleName(Roles.ROLE_MODERATEUR).get());
 	          break;  
 	        default:
 	          return ResponseEntity.badRequest().body("Specified role not found");

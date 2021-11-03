@@ -17,6 +17,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -38,15 +41,19 @@ public class User {
 	  @JoinTable(name = "user_role", 
 	      joinColumns = @JoinColumn(name="USER_ID", referencedColumnName="ID"),
 	      inverseJoinColumns = @JoinColumn(name="ROLE_ID", referencedColumnName="ID"))
-	  private Set<Role> roles = new HashSet<>();
+	private Set<Role> roles = new HashSet<>();
+
 	@OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "Moderateur")
+            cascade =  CascadeType.ALL,mappedBy = "Moderateur")
+	@JsonIgnore
 	private Club club; 
 	
 	@OneToMany(mappedBy = "Moderateur")
+	@JsonIgnore
 	private List<Fournisseur> fournisseur; 
+	
 	@OneToMany(mappedBy = "Moderateur")
+	@JsonIgnore
 	private List<Sponsor> sponsors; 
 	
 	
