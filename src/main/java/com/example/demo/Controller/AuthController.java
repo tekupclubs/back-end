@@ -1,19 +1,10 @@
 package com.example.demo.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.example.demo.Repository.RoleRepository;
+import com.example.demo.Repository.UserRepository;
+import com.example.demo.Security.JwtTokenUtil;
+import com.example.demo.models.*;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,19 +12,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.Repository.RoleRepository;
-import com.example.demo.Repository.UserRepository;
-import com.example.demo.Security.JwtTokenUtil;
-import com.example.demo.models.AuthResponse;
-import com.example.demo.models.CustomUserBean;
-import com.example.demo.models.Role;
-import com.example.demo.models.Roles;
-import com.example.demo.models.SignupRequest;
-import com.example.demo.models.User;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins="*") 
 @RequestMapping("/auth")
@@ -51,7 +37,6 @@ public class AuthController {
 	 
 	  @PostMapping("/login")
 	  public ResponseEntity<?> userLogin(@Validated @RequestBody User user) {
-	    //System.out.println("AuthController -- userLogin");
 	    Authentication authentication = authenticationManager.authenticate(
 	          new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
 	    SecurityContextHolder.getContext().setAuthentication(authentication);
