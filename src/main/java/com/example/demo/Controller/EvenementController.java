@@ -4,7 +4,7 @@ package com.example.demo.Controller;
 import com.example.demo.Repository.EvenementRepository;
 import com.example.demo.models.Evenement;
 
-import com.example.demo.models.Sponsor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,14 +21,14 @@ public class EvenementController {
     @Autowired
     private EvenementRepository evenementrepo;
     @GetMapping("/evenement")
-    public List<Evenement> getAllsponsor() {
+    public List<Evenement> getAllevenement() {
         return evenementrepo.findAll();
     }
-    @GetMapping("/sponsor/{id}")
-    public ResponseEntity<Evenement> getSponsorById(@PathVariable(value = "id") Integer sponsorId)
+    @GetMapping("/evenement/{id}")
+    public ResponseEntity<Evenement> getevenementById(@PathVariable(value = "id") Integer evenementId)
             throws com.example.demo.exception.ResourceNotFoundException {
-        Evenement evenement = evenementrepo.findById(sponsorId)
-                .orElseThrow(() -> new com.example.demo.exception.ResourceNotFoundException("Sponsor not found for this id :: " + sponsorId));
+        Evenement evenement = evenementrepo.findById(evenementId)
+                .orElseThrow(() -> new com.example.demo.exception.ResourceNotFoundException("Event not found for this id :: " + evenementId));
         return ResponseEntity.ok().body(evenement);
     }
     @PostMapping("/evenement")
