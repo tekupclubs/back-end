@@ -28,7 +28,8 @@ import java.io.IOException;
 
 @CrossOrigin()
 @RestController
-@RequestMapping("/evenement")
+@RequestMapping("/api")
+
 public class EvenementController {
 
 
@@ -38,10 +39,6 @@ public class EvenementController {
     private JmsTemplate jmsTemplate;
 
 
-
-
-
-
     public EvenementController() {
         super();
     }
@@ -49,24 +46,28 @@ public class EvenementController {
 
     @PostMapping("/addevenement")
     public ResponseEntity<EvenementResponse> addevenement(
-            @RequestParam(name="file") MultipartFile evenementimage,
-            @RequestParam(name ="localisation") String localisation,
-            @RequestParam(name ="duree" ) String duree,
-            @RequestParam(name ="libelle") String libelle,
-            @RequestParam(name ="nbre_de_places") String nbre_de_places) throws IOException {
+            @RequestParam(name ="Libelle") String Libelle,
+            @RequestParam(name ="Nbre_de_places") String Nbre_de_places,
+            @RequestParam(name ="Localisation") String Localisation,
+            @RequestParam(name ="Duree" ) String Duree,
+            @RequestParam(name="file") MultipartFile evenementimage
+            )
+
+
+             throws IOException {
         EvenementResponse evres = new EvenementResponse();
-        if (Validator.isStringEmpty(libelle) || Validator.isStringEmpty(localisation)
-                || Validator.isStringEmpty(duree) ||  Validator.isStringEmpty(nbre_de_places)) {
+        if (Validator.isStringEmpty(Libelle) || Validator.isStringEmpty(Localisation)
+                || Validator.isStringEmpty(Duree) ||  Validator.isStringEmpty(Nbre_de_places)) {
             evres.setStatus("400");
             evres.setMessage("BAD_REQUEST");
             return new ResponseEntity<EvenementResponse>(evres, HttpStatus.NOT_ACCEPTABLE);
         } else {
             try {
                 Evenement eve = new Evenement();
-                eve.setLibelle(libelle);
-                eve.setLocalisation(localisation);
-                eve.setDuree(duree);
-                eve.setNbre_de_places(Integer.parseInt(nbre_de_places));
+                eve.setLibelle(Libelle);
+                eve.setLocalisation(Localisation);
+                eve.setDuree(Duree);
+                eve.setNbre_de_places(Integer.parseInt(Nbre_de_places));
                 if (evenementimage != null) {
                     eve.setEvenementimage(evenementimage.getBytes());
                 }
@@ -83,17 +84,19 @@ public class EvenementController {
     }
 
 
-    @PutMapping("/updateevenment")
+    @PutMapping("/updateevenement")
     public ResponseEntity<ServerResponse> updateEvenement(
+
+            @RequestParam(name ="Libelle") String Libelle,
+            @RequestParam(name ="Nbre_de_places") String Nbre_de_places,
+            @RequestParam(name ="Localisation") String Localisation,
+
+            @RequestParam(name ="Duree" ) String Duree,
             @RequestParam(name="file") MultipartFile evenementimage,
-            @RequestParam(name ="libelle") String libelle,
-            @RequestParam(name ="duree" ) String duree,
-            @RequestParam(name ="localisation") String localisation,
-            @RequestParam(name ="nbre_de_places") String nbre_de_places,
             @RequestParam(name ="id") String evenementid) throws IOException {
         ServerResponse evres = new ServerResponse();
-        if (Validator.isStringEmpty(libelle) || Validator.isStringEmpty(duree)
-                || Validator.isStringEmpty(nbre_de_places) || Validator.isStringEmpty(localisation))
+        if (Validator.isStringEmpty(Libelle) || Validator.isStringEmpty(Duree)
+                || Validator.isStringEmpty(Nbre_de_places) || Validator.isStringEmpty(Localisation))
         {	evres.setStatus("400");
             evres.setMessage("BAD_REQUEST");
             return new ResponseEntity<ServerResponse>(evres, HttpStatus.NOT_ACCEPTABLE);
@@ -103,13 +106,13 @@ public class EvenementController {
                 if ( evenementimage != null) {
 
 
-                    Evenement evenement =  new Evenement(Integer.parseInt(evenementid), libelle,duree,localisation,
-                             Integer.parseInt(nbre_de_places), evenementimage.getBytes());
+                    Evenement evenement =  new Evenement(Integer.parseInt(evenementid), Libelle,Duree,Localisation,
+                             Integer.parseInt(Nbre_de_places), evenementimage.getBytes());
                     evenementRepository.save(evenement);
                 } else {
                     Evenement evenementOrg = evenementRepository.findByid(Integer.parseInt(evenementid));
-                    Evenement evenement1 =   new Evenement(Integer.parseInt(evenementid), libelle,localisation,duree,
-                            Integer.parseInt(nbre_de_places),evenementimage.getBytes()) ;
+                    Evenement evenement1 =   new Evenement(Integer.parseInt(evenementid), Libelle,Localisation,Duree,
+                            Integer.parseInt(Nbre_de_places),evenementimage.getBytes()) ;
                     evenementRepository.save(evenement1);
                     evres.setStatus("200");
                     evres.setMessage("SUCCESS");
