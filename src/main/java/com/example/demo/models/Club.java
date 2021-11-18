@@ -27,6 +27,7 @@ public class Club {
 	private String Libelle;
 	private String Activite;
 	private String email ;
+	private String deviops;
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Moderateur_id", nullable = false)
 	private User Moderateur ;
